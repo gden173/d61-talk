@@ -1,5 +1,3 @@
-#################################################
-# Plotting the Sorbinil Joint distribution
 # For the symmetric model
 # #############################################
 
@@ -30,8 +28,6 @@ means <- matrix(c(
 
 # Define colors to use to match d61
 
-d61_green <- rgb(48, 184, 136, maxColorValue = 255)
-
 cpal <- list(
   green = rgb(48, 184, 136, maxColorValue = 255),
   plum = rgb(109, 32, 119, maxColorValue = 255),
@@ -56,15 +52,15 @@ thm <-
     legend.position = "none",
     axis.text = element_text(
       size = 14, face = "bold",
-      color = cpal$midnight_blue
+      color = "black"
     ),
     axis.ticks = element_blank(),
     axis.title = element_text(
       size = 20, face = "italic",
-      color = cpal$midnight_blue
+      color = "black"
     ),
-    panel.grid.major = element_line(colour = "black", size = 0.2),
-    panel.grid.minor = element_line(colour = "black", size = 0.2),
+    panel.grid.major = element_line(colour = "grey", size = 0.2),
+    panel.grid.minor = element_line(colour = "grey", size = 0.2),
     panel.border = element_blank(),
   )
 
@@ -88,23 +84,28 @@ plot_margin <- function(
       x = {{ x }},
       y = {{ y }},
       size = {{ tt }},
-      alpha = {{ tt }}
+      color = {{ tt }}
     )
   ) +
-    ggplot2::geom_point(data = df, aes(size = {{ tt }})) +
-    ggplot2::geom_point(
-      data = df,
-      ggplot2::aes(x = mean_x, y = mean_y),
-      colour = d61_green,
-      shape = 17,
-      size = 15
-    ) +
-    ggplot2::scale_size_continuous(range = 100 * range(df |> dplyr::pull({{ tt }}))) +
     ggplot2::geom_point(
       data = grid_points,
       ggplot2::aes(x_axis, y_axis),
       size = 0.5,
+      color = "grey",
       inherit.aes = FALSE
+    ) +
+    ggplot2::geom_point(data = df, aes(size = {{ tt }})) +
+    ggplot2::geom_point(
+      data = df,
+      ggplot2::aes(x = mean_x, y = mean_y),
+      colour = cpal$green,
+      shape = 3,
+      size = 20,
+    ) +
+    ggplot2::scale_size_continuous(range = 100 * range(df |> dplyr::pull({{ tt }}))) +
+    ggplot2::scale_color_gradient(
+      low = "black",
+      high = cpal$vermillion,
     ) +
     ggplot2::xlab(x_lab) +
     ggplot2::ylab(y_lab) +

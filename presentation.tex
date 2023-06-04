@@ -26,6 +26,8 @@
 \newcommand{\linkcolor}{Data61 green}
 \newcommand{\urlcolor}{Data61 dark mint}
 \newcommand{\citecolor}{Data61 light forest}
+\newcommand{\vermillion}{Data61 vermillion}
+
 
 \hypersetup{
   urlcolor    = \urlcolor,        %Colour for external hyperlinks
@@ -553,7 +555,10 @@ model = fit_vspglm(["death~age","burns~age"],tbl,{'logit','id'})
 	\begin{figure}
 		\centering
 		\includegraphics[width= \linewidth]{figures/sorbinil_pmfs.png}
-		\caption{{\small Reweighted Sorbinal pmf at group medians (left eye = $y$ axis, right eye = $x$ axis)}}
+		\caption{
+                    {\small Reweighted Sorbinal pmf at group medians (left eye = $y$ axis, right eye = $x$ axis).
+                Medians are indicated by the \textcolor{\linkcolor}{green} cross. 
+                Areas with greater probability mass colored in \textcolor{\vermillion}{vermillion}.}}
 	\end{figure}
 \end{frame}
 
