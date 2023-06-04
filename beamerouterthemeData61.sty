@@ -1,0 +1,40 @@
+% Copyright 2015 NICTA
+% Date 2015-09-23
+% Version 1, revision 6
+% author: Guido Governatori, guido.governatori@nicta.com.au 
+
+\ProvidesPackage{beamerouterthemeData61}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{logo}{}
+\setbeamertemplate{sidebar right}{}
+
+\setbeamertemplate{background canvas}{%
+\begin{pgfpicture}{0pt}{0pt}{\paperwidth}{\paperheight}
+  \pgftext[at=\pgfpoint{354pt}{260pt},top,right]{\pgfuseimage{Data61Logo}}
+\end{pgfpicture}}
+
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[ht=3\baselineskip,leftskip=.5cm]{footline}
+    \raisebox{1.2\baselineskip}{%
+      \insertframenumber\ $\vert$ \insertshorttitle\ $\vert$ \insertshortauthor}
+  \end{beamercolorbox}
+}
+
+\newlength{\frametitlelength}
+\setlength{\frametitlelength}{\paperwidth - 96pt -.5cm}
+\setbeamertemplate{frametitle}{%
+  \vskip8pt
+  \begin{beamercolorbox}[wd=\frametitlelength,left,leftskip=-5mm]{frametitle}
+   \bfseries\LARGE\insertframetitle 
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{title page}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=\paperheight]{title page}
+    \inserttitlegraphic
+  \end{beamercolorbox}
+}
+
+% \setbeamertemplate{part page}{}

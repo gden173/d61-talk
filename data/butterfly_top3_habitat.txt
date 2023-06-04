@@ -1,0 +1,13 @@
+coefficient        estimate   stdError     tValue        pValue
+Intercept          3.1704     0.20145      15.738             0   
+Habitat_Mixed     -2.3307     0.47056     -4.9531    5.9357e-06    
+Habitat_Short     -4.2691       1.666     -2.5624      0.012838   
+Habitat_Tall      -1.9383     0.43972     -4.4081    4.2194e-05    
+Intercept          2.2172     0.26003       8.5269   4.8443e-12    
+Habitat_Mixed     -2.8591      1.9344       -1.478      0.14447    
+Habitat_Short     -2.7281      1.4348      -1.9013     0.061906   
+Habitat_Tall     0.021456      0.4224     0.050795      0.95965   
+Intercept          2.4619      0.2414      10.199    6.8834e-15    
+Habitat_Mixed     -2.2283     0.49107     -4.5377    2.6696e-05    
+Habitat_Short     -3.0905     0.84068     -3.6762    0.00049636    
+Habitat_Tall     -0.95256     0.29515     -3.2274     0.0019974    

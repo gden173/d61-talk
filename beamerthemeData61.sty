@@ -1,0 +1,41 @@
+% Copyright 2015 NICTA
+% Date 2015-09-23
+% Version 1, revision 6
+% author: Guido Governatori, guido.governatori@nicta.com.au 
+
+\ProvidesPackage{beamerthemeData61}
+
+\usepackage[australian]{babel}
+\usepackage{pgf}
+\usepackage{calc}
+
+\pgfdeclareimage[height=36pt]{Data61Logo}{art/DATA61_CSIRO_OnWhite_RGB.pdf}
+\pgfdeclareimage[height=80pt]{Data61LogoBlack}{art/Data61LogoBlack.png}
+\pgfdeclareimage[height=36pt]{CSIROLogoBlack}{art/CSIROLogo.png}
+%\pgfdeclareimage{Data61patternBlack}{}
+\pgfdeclareimage[height=.9\textheight]{Data61patternGreen}{art/ArtworkGreen.png}
+
+\logo{\pgfuseimage{Data61Logo}}
+
+\titlegraphic{
+\begin{pgfpicture}{0pt}{0pt}{362pt}{272pt}
+  \pgftext[at=\pgfpoint{364pt}{274pt},top,right]{\pgfuseimage{Data61patternGreen}}
+  \pgftext[at=\pgfpoint{354pt}{10pt},bottom,right]{\pgfuseimage{CSIROLogoBlack}}
+  \pgftext[at=\pgfpoint{20pt}{255pt},top,left]{\pgfuseimage{Data61LogoBlack}}
+  \pgftext[at=\pgfpoint{20pt}{110pt},left]{%
+    \begin{beamercolorbox}[wd=.65\paperwidth,leftskip=0pt]{title}
+      \LARGE\bfseries\inserttitle
+    \end{beamercolorbox}
+  }
+  \pgftext[at=\pgfpoint{20pt}{60pt},left]{\bfseries\color{white}\insertauthor}
+  \pgftext[at=\pgfpoint{20pt}{45pt},left]{\color{white}\insertdate}
+  \pgftext[at=\pgfpoint{20pt}{10pt},left,bottom]{\small\color{Data61 green}www.data61.csiro.au}
+\end{pgfpicture}
+}
+
+\usecolortheme{Data61}
+%\usefonttheme{Data61}
+\useinnertheme{Data61}
+\useoutertheme{Data61}
+
+\renewcommand{\maketitle}{\frame[plain]{\titlepage}}
