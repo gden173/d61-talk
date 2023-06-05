@@ -47,31 +47,41 @@ for (i in 1:14) {
   names(data)[2] <- "counts"
 
   correlation <- cor(data$prediction, data$counts)
-  ttl <- paste(
-    tolower(stringr::str_replace_all(colnames(pred)[i], "[.]", " ")),
-    " (n = ", sum(data$counts), "):  ",
-    sep = ""
-  )
+  b_name <- gsub("[.]", " ", colnames(pred)[i])
+
+  ttl <- paste0(" `", b_name, "`: italic(", expression(italic(rho)), ")==italic(", round(correlation, 2), ")")
+  sbtl <- paste0("(N==", sum(data$counts), ")")
+  print(ttl)
 
   plot_list[[i]] <- ggplot(data, aes(counts, prediction)) +
     geom_point(size = 2, alpha = 0.6) +
-    labs(title = expression(paste(ttl, rho))) +
+    labs(
+      title = parse(text = ttl),
+      subtitle = parse(text = sbtl)
+    ) +
+    xlim(0, max(data$counts)) +
+    ylim(0, max(data$prediction)) +
     xlab("") +
     ylab("") +
     theme_minimal() +
     theme(
       axis.text = element_blank(),
       axis.ticks = element_blank(),
+    plot.subtitle = element_text(hjust = 0.5), 
       plot.title = element_text(
         size = 14,
         face = "italic",
-        hjust = 0.5
-      )
+        hjust = 0.5,
+        family = "serif",
+      ),
+      panel.grid.major = element_line(colour = "grey", size = 0.2),
+      panel.grid.minor = element_blank()
     )
 }
-ggpubr::ggarrange(plotlist = plot_list, ncol = 3, nrow = 5, aligh = "v")
 
-ggsave("butterfly_14d_poisson.png",
+ggpubr::ggarrange(plotlist = plot_list, ncol = 3, nrow = 5, align = "v")
+
+ggsave("figures/butterfly_14d_poisson.png",
   plot = last_plot(),
   dpi = 500
 )
@@ -79,11 +89,23 @@ ggsave("butterfly_14d_poisson.png",
 
 
 #######################################################################
-M <- cor(dfy)
+# M <- cor(dfy)
+#
+# library(RColorBrewer)
+# corrplot::corrplot(M,
+#   order = "AOE", tl.col = "black", tl.srt = 45, tl.cex = 0.8, diag = FALSE,
+#   col = brewer.pal(n = 8, name = "RdYlBu")
+# )
+# ggsave("butterfly_14d_corr.png")
 
-library(RColorBrewer)
-corrplot::corrplot(M,
-  order = "AOE", tl.col = "black", tl.srt = 45, tl.cex = 0.8, diag = FALSE,
-  col = brewer.pal(n = 8, name = "RdYlBu")
-)
-ggsave("butterfly_14d_corr.png")
+
+## How to combine "math" and numeric variables :
+plot(1:10, type = "n", xlab = "", ylab = "", main = "plot math & numbers")
+theta <- 1.23
+mtext(bquote(hat(theta) == .(theta)), line = .25)
+for (i in 2:9) {
+  text(i, i + 1, substitute(
+    list(xi, eta) == group("(", list(x, y), ")"),
+    list(x = i, y = i + 1)
+  ))
+}

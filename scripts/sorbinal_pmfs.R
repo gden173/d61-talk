@@ -52,12 +52,14 @@ thm <-
     legend.position = "none",
     axis.text = element_text(
       size = 14, face = "bold",
-      color = "black"
+      color = "black", 
+      family = "serif" 
     ),
     axis.ticks = element_blank(),
     axis.title = element_text(
       size = 20, face = "italic",
-      color = "black"
+      color = "black", 
+      family = "serif"
     ),
     panel.grid.major = element_line(colour = "grey", size = 0.2),
     panel.grid.minor = element_line(colour = "grey", size = 0.2),
