@@ -115,11 +115,48 @@
 	\tableofcontents
 \end{frame}
 \note[enumerate]{
+	\item Introduction: Go over the basics of GLMs, introduce VGLMs and  mention some of the
+	issues that can arise from parametric models.
+	\item Motivating Example: Show a dataset which can be used as a motivating example for the proposed model.
+	\item Proposed Model: Introduce the semiparametric model which is the focus of this research.
+	\item Computation: Discuss the computational aspects of the model. i.e., how is it fit relative to other models.
+	\item Applications: Look at a few applications of this model.
 }
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Introduction}
 
-\section{Motivation}
+\begin{frame}{GLMs}
+	% Quick, refresher
+	A Generalized Linear Model (GLM) for modelling data
+	\[
+		(Y_i, \X_i) \in \mathcal{Y} \times \mathcal{X} \subset \R \times \R^q, i = 1,\dots, n
+	\]
+	consist of three components \pause
+	\pause[\thebeamerpauses]
+	\begin{itemize}[<+->]
+		\item A random component:  a reference distributions for
+		      $Y$ which originates from an exponential family.
+		\item A systematic component: a linear predictor $\eta_i = \X_i^T\vbe$
+		\item A link function: A function which maps $\Em[Y_i \gvn \X_i] = \mu_i$ to $\eta_i$.
+		      In most cases it is more convenient to use the inverse link function $g^{-1}(\mu_i) = \eta_i$.
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Common GLMS}
+	Common GLMS include \pause
+	\pause[\thebeamerpauses]
+	\begin{itemize}[<+->]
+		\item  Normal Linear Model: Which assumes $Y_i \sim \Nor(\mu_i, \sigma^2)$ and $g(\mu_i) = \eta_i = \X_i^T\vbe$.
+		\item  Poisson Regression: Which assumes $Y_i \sim \Po(\mu_i)$ and $g(\mu_i) = \log(\X_i^T\vbe)$.
+		\item  Logistic Regression: Which assumes $Y_i \sim \ {\sf Ber}(\mu_i)$ and $g(\mu_i) = \frac{\log(\X_i^T\vbe)}{1 - \log(\X_i^T\vbe)}$.
+	\end{itemize}
+\end{frame}
+
 
 \begin{frame}{VGLMs}
 	A VGLM (Vector Generalized Linear Model)  aims to generalize GLMs to
@@ -127,6 +164,25 @@
 	families of probability distributions (e.g., poisson, gamma, ...) are
 	difficult to construct.
 \end{frame}
+
+
+
+\begin{frame}
+	\frametitle{Problems Modelling with parametric GLMs and VGLMs}
+	Common problems that occur with parametric modelling\pause
+	\pause[\thebeamerpauses]
+	\begin{itemize}[<+->]
+		\item requires correct specification of the error distribution
+		\item requires correct specification of the mean-variance relationship
+		\item observed data often exhibit over-or under-dispersion relative to the postulated model
+	\end{itemize}
+	\pause[\thebeamerpauses]
+	For multivariate data, problems arise when specifying a parametric distribution and the response covariance structure.
+	For most cases there is no standard parametric model which could produce a given dataset.
+\end{frame}
+
+
+\section{Motivating Example}
 
 \begin{frame}{Motivating Example (Butterfly Dataset)}
 	This dataset contains $66$  counts of  $14$ species of butterflies in
@@ -167,25 +223,6 @@
 \end{frame}
 
 
-
-
-\begin{frame}
-	\frametitle{Problems Modelling with parametric GLMs and VGLMs}
-	Common problems that occur with parametric modelling\pause
-	\begin{itemize}[<+->]
-		\item requires correct specification of the error distribution
-		\item requires correct specification of the mean-variance relationship
-		\item observed data often exhibit over-or under-dispersion relative to the postulated model
-	\end{itemize}
-	\pause[\thebeamerpauses]
-	For multivariate data, problems arise when specifying a parametric distribution and the response covariance structure.
-	For most cases there is no standard parametric model which could produce a given dataset.
-\end{frame}
-\note[itemize]{
-	Read the slide.
-}
-
-
 \section{Proposed Model}
 
 
@@ -218,12 +255,15 @@
 		dF_i(\by) = \exp\{b_i + \vect{\theta}_i^T\by \}  \ dF(\by),  \  \ i = 1,\dots, n
 	\end{equation*}
 	\pause
-	where $dF_i(\by)$ is an exponential tilt of the response distribution $dF(\by)$,
-	with the amount of tilting $\vect{\theta}$ determined by the mean
-	$\vect{\mu}(\X_i^T\vbe)$ of the observation $\Y_i$.
+	Here
+	\pause
+	\begin{itemize}[<+->]
+		\item $b_i$ are each observations normalising constant,
+		\item  $dF_i(\by)$ is an exponential tilt of the response distribution $dF(\by)$,
+		\item  where the amount of tilting $\vect{\theta}$ determined by the mean
+		      $\vect{\mu}(\X_i^T\vbe)$ of the observation $\Y_i$.
+	\end{itemize}
 \end{frame}
-
-
 
 \begin{frame}{Model Tilt Parameters}
 	The normalising constants $b_i = b(\X_i, \vbe,F)$ are defined to be
@@ -281,51 +321,48 @@
 \end{frame}
 
 
-\begin{frame}{Parameter Inference}
-	There have been some results shown for the conducting parameter inference in
-	the univariate case of this model \parencite{Huang2014,HuangRathouz2017},
-	which generalise to this model.
-\end{frame}
+% \begin{frame}{Parameter Inference}
+% 	There have been some results shown for the conducting parameter inference in
+% 	the univariate case of this model \parencite{Huang2014,HuangRathouz2017},
+% 	which generalise to this model.
+% \end{frame}
 
 
-\begin{frame}
-	\frametitle{Parameter Inference}
-	For testing the null hypothesis
-	\begin{align*}
-		H_0:\beta_{(k)j}  & = 0,            \\
-		k = 1,\dots, K, j & = 1, \dots, q_k
-	\end{align*}
-	\pause
-	a Wald test can be used
-	\begin{align*}
-		\frac{\hat{\beta}_{(k)j}}{\sqrt{\hat{\Sigma}_{(k)j,(k)j}}} \sim t_{n - q_k}
-	\end{align*}
-	\pause
-	where the standard errors are derived from the empirical log-likelihood
-	\[
-		\hat{\Sigma} = \Bigg\{\Var\Big[\nabla \ell (\vbe, \vect{p})\Big] \Bigg\}^{-1}
-	\]
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Parameter Inference}
+% 	For testing the null hypothesis
+% 	\begin{align*}
+% 		H_0:\beta_{(k)j}  & = 0,            \\
+% 		k = 1,\dots, K, j & = 1, \dots, q_k
+% 	\end{align*}
+% 	\pause
+% 	a Wald test can be used
+% 	\begin{align*}
+% 		\frac{\hat{\beta}_{(k)j}}{\sqrt{\hat{\Sigma}_{(k)j,(k)j}}} \sim t_{n - q_k}
+% 	\end{align*}
+% 	\pause
+% 	where the standard errors are derived from the empirical log-likelihood
+% 	\[
+% 		\hat{\Sigma} = \Bigg\{\Var\Big[\nabla \ell (\vbe, \vect{p})\Big] \Bigg\}^{-1}
+% 	\]
+% \end{frame}
 
-\begin{frame}{Parameter Inference}
-	For Point Hypothesis $H_0:\vbe = \vbe^*$
-	\begin{align*}
-		2\{\ell(\hat{\vbe}) - \ell(\vbe^{*}) \} \sim \chi^2_{Q},  \  \ Q = \sum_{k = 1}^{K}q_k
-	\end{align*}
-	\pause
-	Composite Hypothesis $H_0:M\vbe = \gamma$,
-	\begin{align*}
-		2\{\ell(\hat{\vbe}) - \ell(\hat{\vbe}_0) \} \sim \chi^2_{r}
-	\end{align*}
-	\pause
-	For finite samples  the following adjustment can be made
-	\[
-		2\{\ell(\hat{\vbe}) - \ell(\hat{\vbe}_0) \} \sim rF_{r, n - Q}
-	\]
-\end{frame}
-\note{
-	Read the slide.
-}
+% \begin{frame}{Parameter Inference}
+% 	For Point Hypothesis $H_0:\vbe = \vbe^*$
+% 	\begin{align*}
+% 		2\{\ell(\hat{\vbe}) - \ell(\vbe^{*}) \} \sim \chi^2_{Q},  \  \ Q = \sum_{k = 1}^{K}q_k
+% 	\end{align*}
+% 	\pause
+% 	Composite Hypothesis $H_0:M\vbe = \gamma$,
+% 	\begin{align*}
+% 		2\{\ell(\hat{\vbe}) - \ell(\hat{\vbe}_0) \} \sim \chi^2_{r}
+% 	\end{align*}
+% 	\pause
+% 	For finite samples  the following adjustment can be made
+% 	\[
+% 		2\{\ell(\hat{\vbe}) - \ell(\hat{\vbe}_0) \} \sim rF_{r, n - Q}
+% 	\]
+% \end{frame}
 
 \section{Fitting the Model}
 \begin{frame}{Code}
@@ -340,7 +377,7 @@
 	$Q + n(2 + K)$ parameters. \pause
 	\begin{itemize}[<+->]
 		\item  $Q$ regression parameters $\vbe$
-		\item $n$ probability masses $p_i$
+		\item  $n$ probability masses $p_i$
 		\item  $n$ normalising constants $b_i$
 		\item  $nK$ tilt parameters $\vect{\theta}_i$
 	\end{itemize}
@@ -352,30 +389,33 @@
 
 \section{Applications}
 
-\begin{frame}{Butterfly Dataset}
-	Contains $66$  counts of  $14$ species of butterfly in
+\begin{frame}{Motivating Example (Butterfly Dataset)}
+	This dataset contains $66$  counts of  $14$ species of butterflies in
 	Boulder Colorado, USA. \\
 	\begin{table}
 		\centering
-		\caption{Snippet of Butterfly Counts for the $3$ most common species}
+		\caption{Snippet of Butterfly Counts for the $3$ most common species \parencite{Hui2013, 2006Oliver}}
 		\resizebox{0.95\textwidth}{!}{%
 			\begin{tabular}{c|cccccc}
 				\hline
-				site   & {\small Pieris.rapae} & {\small  Colias.philodice} & {\small Colias.eurytheme} & building & vegetation & habitat \\
+				\textbf{site} & {\small \textbf{Pieris.rapae}} & {\small  \textbf{Colias.philodice}} & {\small \textbf{Colias.eurytheme}} & \textbf{building} & \textbf{vegetation} & \textbf{habitat} \\
 				\hline
-				1      & 0                     & 0                          & 0                         & 2.1      & 10.8       & mixed   \\
-				2      & 1                     & 1                          & 2                         & 2.1      & 10.8       & mixed   \\
-				3      & 1                     & 1                          & 2                         & 19.8     & 1.7        & mixed   \\
-				4      & 0                     & 2                          & 1                         & 5.3      & 0          & mixed   \\
-				\vdots & \vdots                & \vdots                     & \vdots                    & \vdots   & \vdots     & \vdots  \\
+				1             & 0                              & 0                                   & 0                                  & 2.1               & 10.8                & mixed            \\
+				2             & 1                              & 1                                   & 2                                  & 2.1               & 10.8                & mixed            \\
+				3             & 1                              & 1                                   & 2                                  & 19.8              & 1.7                 & mixed            \\
+				4             & 0                              & 2                                   & 1                                  & 5.3               & 0                   & mixed            \\
+				\vdots        & \vdots                         & \vdots                              & \vdots                             & \vdots            & \vdots              & \vdots           \\
 				\hline
 			\end{tabular}
 		}
 	\end{table}
 \end{frame}
 
+
 \begin{frame}{Butterfly Dataset}
-	We can fit this model directly to the counts of the  each  butterfly species using  separate mean models, without the need to specify any association  between species.
+	We can fit this model directly to the counts of the  each  butterfly
+	species using  separate mean models, without the need to specify any
+	association  between species.
 	\pause
 	\begin{align*}
 		\mu_{(k)i} & = \Em[Y_{(k)i}|\X_i] = \exp\{\X_i^T\vbe_{(k)}\}, \\
@@ -421,86 +461,86 @@ butterfly = fit_vspglm(...
 
 
 
-\begin{frame}{Burns Injury Dataset}
-	Contains $981$ observations of patients admitted to hospital with 3rd degree burns.
-	\begin{table}
-		\centering
-		\caption{Snippet of Burns Dataset \parencite{}}
-		\begin{tabular}{lccc}
-			\hline
-			{}     & \textbf{age} & \textbf{burns} & \textbf{death} \\ \hline
-			1      & 3            & 6.9            & 1              \\
-			2      & 39           & 7.4            & 1              \\
-			3      & 42           & 3.9            & 1              \\
-			4      & 21           & 6.1            & 1              \\
-			\vdots & \vdots       & \vdots         & \vdots         \\
-			\hline
-		\end{tabular}
-	\end{table}
-\end{frame}
-
-\begin{frame}[fragile]{Burns Injury Data Set}
-	Response vector has two components $\Y = (Y_{\text{death}}, Y_{\text{burn}})$ , which are binary and continuous,  and a single covariate $\X = (X_{\text{age}})$.\\
-	\pause
-	This suggests the two marginal mean models
-	\begin{align*}
-		\mu_{(1)} = \Em[\text{death}|\text{age}] & =  \frac{\exp\{\beta_{(1)1} + \beta_{(1)2}\text{age}\}}{1 + \exp\{\beta_{(1)1} +\beta_{(1)2}\text{age}\}} \\
-		\mu_{(2)} = \Em[\text{burns}|\text{age}] & = \beta_{(2)1} + \beta_{(2)2}\text{age}
-	\end{align*}
-	\pause
-	\vspace{0.2cm}\\
-	The code for fitting this model is
-	\begin{verbatim}
-model = fit_vspglm(["death~age","burns~age"],tbl,{'logit','id'})
-\end{verbatim}
-
-\end{frame}
-
-
-
-\begin{frame}{Burn Injury Data Set}
-	This data set has been analysed several times using a variety of VGLMS,
-	with \textcite{Huang2017}  using GEEs to fit these mean models.\\
-	\vspace{0.5cm}\\
-	\pause
-	GEE model parameters
-	\begin{align*}
-		\hat{\mu}_{(1)} & = \frac{\exp\{-3.6891 + 0.0508\text{age}\}}{1 + \exp\{-3.6891 + 0.0508\text{age}\}} \\
-		\hat{\mu}_{(2)} & =  6.7118 + 0.0035\text{age} \nonumber
-	\end{align*}
-	\pause
-	VSPGLM model parameters
-	\begin{align*}
-		\hat{\mu}_{(1)} & = \frac{\exp\{-3.657  + 0.0509\text{age}\}}{1 + \exp\{-3.657  + 0.0509\text{age}\}} \\
-		\hat{\mu}_{(2)} & =  6.7318 + 0.0027\text{age} \nonumber
-	\end{align*}
-\end{frame}
-
-\begin{frame}{Burn Injury Data Set}
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{c|c}
-			{}                                 & $\text{se}(\hat{\vbe})$ \\
-			\hline
-			$\beta_{\text{death}, \text{age}}$ & 0.0051                  \\
-			$\beta_{\text{burns}, \text{age}}$ & 0.0017
-		\end{tabular}
-		\caption{GEE corrected standard errors}
-		\label{tab:GEEerrors}
-	\end{table}
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{c|c}
-			{}                                 & $\text{se}(\hat{\vbe}$) \\
-				\hline
-			$\beta_{\text{death}, \text{age}}$ & 0.0045                  \\
-			$\beta_{\text{burns}, \text{age}}$ & 0.0019
-		\end{tabular}
-		\caption{VSPGLM standard errors}
-		\label{tab:VSPGLMerrors}
-	\end{table}
-\end{frame}
-
+% \begin{frame}{Burns Injury Dataset}
+% 	Contains $981$ observations of patients admitted to hospital with 3rd degree burns.
+% 	\begin{table}
+% 		\centering
+% 		\caption{Snippet of Burns Dataset \parencite{}}
+% 		\begin{tabular}{lccc}
+% 			\hline
+% 			{}     & \textbf{age} & \textbf{burns} & \textbf{death} \\ \hline
+% 			1      & 3            & 6.9            & 1              \\
+% 			2      & 39           & 7.4            & 1              \\
+% 			3      & 42           & 3.9            & 1              \\
+% 			4      & 21           & 6.1            & 1              \\
+% 			\vdots & \vdots       & \vdots         & \vdots         \\
+% 			\hline
+% 		\end{tabular}
+% 	\end{table}
+% \end{frame}
+%
+% \begin{frame}[fragile]{Burns Injury Data Set}
+% 	Response vector has two components $\Y = (Y_{\text{death}}, Y_{\text{burn}})$ , which are binary and continuous,  and a single covariate $\X = (X_{\text{age}})$.\\
+% 	\pause
+% 	This suggests the two marginal mean models
+% 	\begin{align*}
+% 		\mu_{(1)} = \Em[\text{death}|\text{age}] & =  \frac{\exp\{\beta_{(1)1} + \beta_{(1)2}\text{age}\}}{1 + \exp\{\beta_{(1)1} +\beta_{(1)2}\text{age}\}} \\
+% 		\mu_{(2)} = \Em[\text{burns}|\text{age}] & = \beta_{(2)1} + \beta_{(2)2}\text{age}
+% 	\end{align*}
+% 	\pause
+% 	\vspace{0.2cm}\\
+% 	The code for fitting this model is
+% 	\begin{verbatim}
+% model = fit_vspglm(["death~age","burns~age"],tbl,{'logit','id'})
+% \end{verbatim}
+%
+% \end{frame}
+%
+%
+%
+% \begin{frame}{Burn Injury Data Set}
+% 	This data set has been analysed several times using a variety of VGLMS,
+% 	with \textcite{Huang2017}  using GEEs to fit these mean models.\\
+% 	\vspace{0.5cm}\\
+% 	\pause
+% 	GEE model parameters
+% 	\begin{align*}
+% 		\hat{\mu}_{(1)} & = \frac{\exp\{-3.6891 + 0.0508\text{age}\}}{1 + \exp\{-3.6891 + 0.0508\text{age}\}} \\
+% 		\hat{\mu}_{(2)} & =  6.7118 + 0.0035\text{age} \nonumber
+% 	\end{align*}
+% 	\pause
+% 	VSPGLM model parameters
+% 	\begin{align*}
+% 		\hat{\mu}_{(1)} & = \frac{\exp\{-3.657  + 0.0509\text{age}\}}{1 + \exp\{-3.657  + 0.0509\text{age}\}} \\
+% 		\hat{\mu}_{(2)} & =  6.7318 + 0.0027\text{age} \nonumber
+% 	\end{align*}
+% \end{frame}
+%
+% \begin{frame}{Burn Injury Data Set}
+% 	\begin{table}[h!]
+% 		\centering
+% 		\begin{tabular}{c|c}
+% 			{}                                 & $\text{se}(\hat{\vbe})$ \\
+% 			\hline
+% 			$\beta_{\text{death}, \text{age}}$ & 0.0051                  \\
+% 			$\beta_{\text{burns}, \text{age}}$ & 0.0017
+% 		\end{tabular}
+% 		\caption{GEE corrected standard errors}
+% 		\label{tab:GEEerrors}
+% 	\end{table}
+% 	\begin{table}[h!]
+% 		\centering
+% 		\begin{tabular}{c|c}
+% 			{}                                 & $\text{se}(\hat{\vbe}$) \\
+% 				\hline
+% 			$\beta_{\text{death}, \text{age}}$ & 0.0045                  \\
+% 			$\beta_{\text{burns}, \text{age}}$ & 0.0019
+% 		\end{tabular}
+% 		\caption{VSPGLM standard errors}
+% 		\label{tab:VSPGLMerrors}
+% 	\end{table}
+% \end{frame}
+%
 
 \begin{frame}{Sorbinil Dataset}
 	Contains $n = 41$ observations of itching scores $(Y_L, Y_R)$ for the
@@ -526,12 +566,12 @@ model = fit_vspglm(["death~age","burns~age"],tbl,{'logit','id'})
 
 
 \begin{frame}[fragile]{Sorbinil Dataset}
-	We would like to see if sorbinil has a significant effect in reducing\\  
-        itching scores for each eye.
+	We would like to see if sorbinil has a significant effect in reducing\\
+	itching scores for each eye.
 	\vspace{0.3cm}\\
 	\pause
-        Previous attempts at modeling this dataset using VGLMs standardise
-        these scores to $[0,1]$ and fit logistic mean models,
+	Previous attempts at modeling this dataset using VGLMs standardise
+	these scores to $[0,1]$ and fit logistic mean models,
 	however, this is  unnecessary when using this model. \\
 	\pause
 	\vspace{0.1cm}\\
@@ -556,9 +596,9 @@ model = fit_vspglm(["death~age","burns~age"],tbl,{'logit','id'})
 		\centering
 		\includegraphics[width= \linewidth]{figures/sorbinil_pmfs.png}
 		\caption{
-                    {\small Reweighted Sorbinal pmf at group medians (left eye = $y$ axis, right eye = $x$ axis).
-                Medians are indicated by the \textcolor{\linkcolor}{green} cross. 
-                Areas with greater probability mass colored in \textcolor{\vermillion}{vermillion}.}}
+			{\small Reweighted Sorbinal pmf at group medians (left eye = $y$ axis, right eye = $x$ axis).
+					Medians are indicated by the \textcolor{\linkcolor}{green} cross.
+					Areas with greater probability mass colored in \textcolor{\vermillion}{vermillion}.}}
 	\end{figure}
 \end{frame}
 
@@ -658,22 +698,25 @@ model = fit_vspglm(["death~age","burns~age"],tbl,{'logit','id'})
 \end{frame}
 
 
-\begin{frame}{$F$ simulation results}
-	\begin{table}[H]
-		\centering
-		\caption{Type \rom{1} errors at significance levels of $0.10, 0.05$ and $0.01$ using  sample sizes of $n = 75, 150$, and $N = 3000$ simulations}
-		\begin{tabular}{@{}l|lll@{}}
-			\toprule
-			{}  & \multicolumn{3}{c}{Type \rom{1} Errors}                   \\
-			$n$ & $0.10$                                  & $0.05$ & $0.01$ \\
-			\midrule
-			75  & 0.119                                   & 0.060  & 0.012  \\
-			150 & 0.097                                   & 0.050  & 0.013  \\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-\end{frame}
+% \begin{frame}{$F$ simulation results}
+% 	\begin{table}[H]
+% 		\centering
+% 		\caption{Type \rom{1} errors at significance levels of $0.10, 0.05$ and $0.01$ using  sample sizes of $n = 75, 150$, and $N = 3000$ simulations}
+% 		\begin{tabular}{@{}l|lll@{}}
+% 			\toprule
+% 			{}  & \multicolumn{3}{c}{Type \rom{1} Errors}                   \\
+% 			$n$ & $0.10$                                  & $0.05$ & $0.01$ \\
+% 			\midrule
+% 			75  & 0.119                                   & 0.060  & 0.012  \\
+% 			150 & 0.097                                   & 0.050  & 0.013  \\
+% 			\bottomrule
+% 		\end{tabular}
+% 	\end{table}
+% \end{frame}
 \end{document}
+
+
+
 
 
 
