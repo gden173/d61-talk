@@ -138,11 +138,11 @@
 	consist of three components \pause
 	\pause[\thebeamerpauses]
 	\begin{itemize}[<+->]
-		\item A random component:  a reference distributions for
-		      $Y$ which originates from an exponential family.
+		\item A random component:  a reference (or error) distribution for the response 
+		      $Y$,  which originates from an exponential family.
 		\item A systematic component: a linear predictor $\eta_i = \X_i^T\vbe$
-		\item A link function: A function which maps $\Em[Y_i \gvn \X_i] = \mu_i$ to $\eta_i$.
-		      In most cases it is more convenient to use the inverse link function $g^{-1}(\mu_i) = \eta_i$.
+		\item A link function: A function which maps $\Em[Y_i \gvn \X_i] = \mu_i$ to $\X_i^T\vbe = \eta_i$.\\
+		      In some cases it is also more convenient to use the inverse link function $g^{-1}(\mu_i) = \eta_i$.
 	\end{itemize}
 
 \end{frame}
@@ -152,8 +152,8 @@
 	\pause[\thebeamerpauses]
 	\begin{itemize}[<+->]
 		\item  Normal Linear Model: Which assumes $Y_i \sim \Nor(\mu_i, \sigma^2)$ and $g(\mu_i) = \eta_i = \X_i^T\vbe$.
-		\item  Poisson Regression: Which assumes $Y_i \sim \Po(\mu_i)$ and $g(\mu_i) = \log(\X_i^T\vbe)$.
-		\item  Logistic Regression: Which assumes $Y_i \sim \ {\sf Ber}(\mu_i)$ and $g(\mu_i) = \frac{\log(\X_i^T\vbe)}{1 - \log(\X_i^T\vbe)}$.
+		\item  Poisson Regression: Which assumes $Y_i \sim \Po(\mu_i)$ and $g(\mu_i) = \log(\mu_i) = \eta_i$ ($g^{-1}(\eta_i) = \exp\{\X_i^T\vbe\} = \mu_i$).
+		\item  Logistic Regression: Which assumes $Y_i \sim \ {\sf Ber}(\mu_i)$ and $g(\mu_i) = \frac{\log(\mu_i)}{1 - \log(\mu_i)} = \eta_i =  \X_i^T\vbe$.
 	\end{itemize}
 \end{frame}
 
@@ -438,17 +438,6 @@ butterfly = fit_vspglm(...
 	\end{figure}
 \end{frame}
 
-\note[itemize]{
-	\item This next example shows this models applicability to an almost arbitrary number of response components.
-	\item Read Slide}
-\begin{frame}{Butterfly Dataset}
-	\begin{figure}
-		\centering
-		\includegraphics[width = 0.9\textwidth]{figures/butterfly_14d_poisson.png}
-		\caption{Predictions ($y$-axis) vs Observed counts ($x$-axis) }
-		\label{fig:butterfly_14d}
-	\end{figure}
-\end{frame}
 
 \begin{frame}{Butterfly Dataset}
 	\begin{figure}
@@ -456,6 +445,15 @@ butterfly = fit_vspglm(...
 		\includegraphics[width = \textwidth]{figures/butterfly_3d_poisson.png}
 		\caption{Predictions ($y$-axis) vs Observed counts ($x$-axis) for the $3$ butterfly species with the greatest number of observed counts}
 		\label{fig:butterfly_3d}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Butterfly Dataset (14d)}
+	\begin{figure}
+		\centering
+		\includegraphics[width = 0.9\textwidth]{figures/butterfly_14d_poisson.png}
+		\caption{Predictions ($y$-axis) vs Observed counts ($x$-axis) }
+		\label{fig:butterfly_14d}
 	\end{figure}
 \end{frame}
 
