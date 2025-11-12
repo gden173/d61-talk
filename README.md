@@ -15,6 +15,11 @@ Introductory talk given at D61.
 
 ![](d61-talk.png)
 
+# ButterFly Model
+
+14 Dimensional Vector Regression Model of Butterflys.
+
+![](butterfly_14d_poisson.png)
 
 
 ## Author
