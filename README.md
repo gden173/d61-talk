@@ -28,6 +28,18 @@ Introductory talk given at D61.
 
 # Simulation Results
 
+## Model
+
+### Specification
+
+![](figures/trivariate.png)
+
+
+### Results
+
+![](figures/trivariate_results.png)
+
+## Power Surface  
 ![](figures/power_surface.png)
 
 
